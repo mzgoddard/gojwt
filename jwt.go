@@ -1,6 +1,6 @@
-// jwt.go
-// JSON Web Tokens for Go
-
+/* jwt.go
+   JSON Web Tokens for Go
+*/
 package jwt
 
 import (
@@ -61,7 +61,7 @@ func getHash(algorithm string) (func () hash.Hash, os.Error) {
   return nil, &Error{"Algorithm not supported"}
 }
 
-func Encode(jwt interface{}, key []byte, algorithm string) ([]byte, os.Error) {
+func Encode(claims interface{}, key []byte, algorithm string) ([]byte, os.Error) {
   shaFunc, err := getHash(algorithm)
   if err != nil {
     return []byte{}, err
@@ -76,15 +76,15 @@ func Encode(jwt interface{}, key []byte, algorithm string) ([]byte, os.Error) {
       "alg": algorithm,
     })
   if err != nil {
-    return []byte{}, err
+    return nil, err
   }
   segments[0] = base64url_encode(header)
   
-  claims, err := json.Marshal(jwt)
+  claimsJSON, err := json.Marshal(claims)
   if err != nil {
-    return []byte{}, err
+    return nil, err
   }
-  segments[1] = base64url_encode(claims)
+  segments[1] = base64url_encode(claimsJSON)
   
   sha.Write(bytes.Join(segments[:2], separator))
   segments[2] = base64url_encode(sha.Sum())
