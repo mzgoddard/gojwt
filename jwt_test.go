@@ -29,7 +29,7 @@ func TestEncodeDecode(t *testing.T) {
     t.Fatal("Failed to encode: ", encodeErr)
   }
   
-  var claimsDecoded map[string]interface{} = make(map[string]interface{})
+  var claimsDecoded map[string]interface{}
   decodeErr := Decode(encoded, &claimsDecoded, key)
   if decodeErr != nil {
     t.Fatalf("Failed to decode: %s (%s)", decodeErr, encoded)
@@ -53,5 +53,22 @@ func TestSecretError(t *testing.T) {
   decodeErr := Decode(encoded, &claimsDecoded, key)
   if _, ok := decodeErr.(*SecretError); !ok {
     t.Errorf("Did not return SecretError. Got '%s' instead.", decodeErr)
+  }
+}
+
+func TestDecodeValid(t *testing.T) {
+  payload := map[string]interface{}{"hello": "world"}
+  key := []byte("secret")
+  jwt := []byte("eyJhbGciOiAiSFMyNTYiLCAidHlwIjogIkpXVCJ9.eyJoZWxsbyI6ICJ3b3JsZCJ9.tvagLDLoaiJKxOKqpBXSEGy7SYSifZhjntgm9ctpyj8")
+  
+  var decoded map[string]interface{}
+  decodeErr := Decode(jwt, &decoded, key)
+  if decodeErr != nil {
+    t.Fatalf("Failed to decode valid jwt: %s", decodeErr)
+  }
+  for k, v := range payload {
+    if decoded[k] != v {
+      t.Errorf("Claim entry '%s' failed: %s != %s", k, decoded[k], v)
+    }
   }
 }
