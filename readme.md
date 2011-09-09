@@ -1,1 +1,0 @@
-GoJWT - JSON Web Tokens for Go
