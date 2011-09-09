@@ -17,7 +17,8 @@ Install
 Example
 =======
 
-.. code:: go
+::
+
   func queryJwt(w http.ResponseWriter, r *http.Request) {
     fmt.Fprint(w, string(jwt.Encode(
       map[string]interface{}{
