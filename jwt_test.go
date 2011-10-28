@@ -51,7 +51,7 @@ func TestSecretError(t *testing.T) {
   
   var claimsDecoded map[string]interface{}
   decodeErr := Decode(encoded, &claimsDecoded, key)
-  if _, ok := decodeErr.(*SecretError); !ok {
+  if decodeErr != SecretError {
     t.Errorf("Did not return SecretError. Got '%s' instead.", decodeErr)
   }
 }
