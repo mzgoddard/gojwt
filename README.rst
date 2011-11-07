@@ -7,7 +7,9 @@ GoJWT
 :Date: Friday, September 9th, 2011
 :License: MIT
 
-`JSON Web Tokens`_ for Go_
+`JSON Web Tokens`_ for Go_.
+
+Interface inspired by pyjwt_.
  
 Install
 =======
@@ -38,3 +40,4 @@ Example
 .. References
 .. _JSON Web Tokens: http://self-issued.info/docs/draft-jones-json-web-token.html
 .. _Go: http://golang.org
+.. _pyjwt: https://github.com/progrium/pyjwt
